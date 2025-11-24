@@ -4,30 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lauren Web✓</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@500&display=swap" rel="stylesheet">
     
     <style>
-        /* Mengatur tampilan body secara keseluruhan */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Quicksand', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background-color: #f7f7f7; /* Background default */
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
             color: #333;
             text-align: center;
-            transition: background-color 1s;
+            overflow: hidden;
+            transition: background 1s ease;
         }
 
-        /* Penampilan Login */
         #login-container {
-            background: #fff;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
             padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            z-index: 10; /* Pastikan di atas */
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
+            width: 90%;
+            max-width: 400px;
+            z-index: 100;
+            border: 1px solid rgba(255, 182, 193, 0.5);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.2em;
+            color: #ff1493;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 5px rgba(255, 105, 180, 0.3);
         }
 
         form {
@@ -38,97 +61,161 @@
         label {
             margin-top: 15px;
             margin-bottom: 5px;
-            font-weight: bold;
+            font-weight: 600;
             text-align: left;
+            color: #e91e63;
         }
 
-        input[type="text"], input[type="password"] {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+        input {
+            padding: 12px;
+            border: 2px solid #ffb6c1;
+            border-radius: 12px;
             margin-bottom: 15px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        input:focus {
+            border-color: #ff1493;
+            box-shadow: 0 0 0 3px rgba(255, 20, 147, 0.2);
+            outline: none;
         }
 
         button {
-            background-color: #ff69b4; /* Pink - kesan imut */
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
             color: white;
-            padding: 10px;
+            padding: 12px;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s, transform 0.2s;
+            font-size: 18px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 20, 147, 0.4);
+            margin-top: 10px;
         }
 
         button:hover {
-            background-color: #ff4a9e;
-            transform: scale(1.05);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 20, 147, 0.6);
         }
 
-        /* Pesan Error */
+        button:active {
+            transform: translateY(1px);
+        }
+
         #error-message {
             color: #e74c3c;
             margin-top: 10px;
             font-weight: bold;
+            min-height: 24px;
         }
 
-        /* Penampilan Animasi */
         #animation-container {
-            width: 100vw;
-            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background-color: #fce4ec; /* Background pink muda untuk animasi */
-            position: absolute;
-            top: 0;
-            left: 0;
+            background: radial-gradient(circle, #fce4ec 0%, #f8c8dc 70%);
+            z-index: 99;
+            opacity: 0;
+            transition: opacity 0.8s ease;
         }
-        
-        #animation-container h1, #animation-container p {
-            color: #d6338d; /* Warna teks pink tua */
-            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+
+        #animation-container.visible {
+            opacity: 1;
+        }
+
+        #heart-message {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.8em;
+            color: #d6338d;
+            text-shadow: 0 0 15px rgba(255, 105, 180, 0.8);
+            margin-bottom: 20px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        #future-message {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.3em;
+            color: #8b004b;
+            margin-top: 20px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
         #heart-canvas {
-            display: block;
-            /* Hapus border dan background agar animasi terlihat menyatu dengan kontainer */
-            box-shadow: 0 0 30px rgba(255, 105, 180, 0.7); /* Bayangan hati lebih kuat */
-            border-radius: 15px;
+            border-radius: 20px;
+            box-shadow: 0 0 40px rgba(255, 105, 180, 0.6);
+            margin: 20px 0;
+            max-width: 90%;
+            max-height: 60vh;
         }
 
         .hidden {
             display: none !important;
+        }
+
+        @media (max-width: 480px) {
+            #login-container {
+                width: 95%;
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            #heart-message {
+                font-size: 2.2em;
+            }
         }
     </style>
 </head>
 <body>
 
     <div id="login-container">
-        <h1>Masuk ke Dunia Rahasia Kita</h1>
+        <h1>Masuk ke Dunia Rahasia</h1>
         <form id="login-form">
             <label for="username">Nama Port:</label>
-            <input type="text" id="username" required>
+            <input type="text" id="username" required autocomplete="off">
             <label for="password">Kata Sandi:</label>
-            <input type="password" id="password" required>
-            <button type="submit">Masuk</button>
-            <p id="error-message" class="hidden">Nama Port atau Kata Sandi salah. Coba lagi!</p>
+            <input type="password" id="password" required autocomplete="off">
+            <button type="submit">Buka Pintu Hatiku</button>
+            <div id="error-message"></div>
         </form>
     </div>
 
     <div id="animation-container" class="hidden">
-        <h1>Haaayyy, Evelin Sayang kuu cintaa kuu mmmwaahhh 💖</h1>
+        <h1 id="heart-message">Haaayyy, Evelin Sayang kuu cintaa kuu mmmwaahhh 💖</h1>
         <canvas id="heart-canvas"></canvas>
-        <p>Nantii Mass bikinn lebihh baguss lagii😘😘🤍🤍🤍🤍</p>
+        <p id="future-message">Nantii Mass bikinn lebihh baguss lagii😘😘🤍🤍🤍🤍</p>
     </div>
 
     <script>
-        // --- Konstanta Login ---
+        // Constants
         const CORRECT_USERNAME = "Sayang Evelin";
         const CORRECT_PASSWORD = "sayangg";
+        const NUM_PARTICLES = 600;
+        const PARTICLE_COLORS = [
+            'rgba(255, 105, 180, 0.9)',
+            'rgba(255, 182, 193, 0.85)',
+            'rgba(255, 255, 255, 0.95)',
+            'rgba(255, 20, 147, 0.8)'
+        ];
 
-        // --- Ambil Elemen DOM ---
+        // DOM Elements
         const loginContainer = document.getElementById('login-container');
         const animationContainer = document.getElementById('animation-container');
         const loginForm = document.getElementById('login-form');
@@ -136,145 +223,199 @@
         const canvas = document.getElementById('heart-canvas');
         const ctx = canvas.getContext('2d');
 
-        // --- Pengaturan Canvas & Partikel ---
+        // Canvas & Animation Variables
         let W, H;
         let particles = [];
-        const NUM_PARTICLES = 800; // Jumlah partikel ditingkatkan
-        const MAX_RADIUS = 3;
+        let animationId;
+        let lastTime = 0;
+        let heartScale = 1;
+        let heartPulse = 0;
+        let isAnimating = false;
 
-        // Fungsi untuk mendapatkan warna acak pink/putih
-        function getRandomColor() {
-            const colors = ['rgba(255, 105, 180, 0.8)', 'rgba(255, 153, 204, 0.8)', 'rgba(255, 255, 255, 0.9)'];
-            return colors[Math.floor(Math.random() * colors.length)];
-        }
-
-        // Fungsi untuk membuat bentuk hati (Kardioid/Persamaan Hati)
-        function getHeartPoint(t) {
-            const scale = 18; // Ukuran hati diperbesar
+        // Heart Curve Function (Parametric)
+        function getHeartPoint(t, scale) {
             const x = scale * 16 * Math.pow(Math.sin(t), 3);
             const y = -scale * (13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
-            return { x: x, y: y };
+            return { x, y };
         }
 
-        // Objek Partikel
+        // Particle Class
         class Particle {
-            constructor(x, y, radius) {
-                // Posisi awal acak yang tersebar
-                this.x = W / 2 + (Math.random() - 0.5) * W * 1.5; 
-                this.y = H / 2 + (Math.random() - 0.5) * H * 1.5;
-                this.radius = radius;
-                this.targetX = x;
-                this.targetY = y;
-                this.color = getRandomColor();
-                
-                // Kecepatan awal besar untuk efek "pop"
-                this.vx = (Math.random() - 0.5) * 15;
-                this.vy = (Math.random() - 0.5) * 15;
-
-                this.damping = 0.95; 
-                this.wobble = Math.random() * 0.1; // Fluktuasi kecil
-                this.wobbleSpeed = Math.random() * 0.05 + 0.01;
-                this.attraction = 0.05; // Kekuatan tarik
+            constructor(t) {
+                this.t = t; // Position along heart curve
+                this.speed = 0.001 + Math.random() * 0.003; // Movement speed
+                this.radius = 0.8 + Math.random() * 2.5;
+                this.color = PARTICLE_COLORS[Math.floor(Math.random() * PARTICLE_COLORS.length)];
+                this.glow = 5 + Math.random() * 10;
+                this.x = W / 2;
+                this.y = H / 2;
+                this.baseX = this.x;
+                this.baseY = this.y;
+                this.vx = (Math.random() - 0.5) * 2;
+                this.vy = (Math.random() - 0.5) * 2;
+                this.isSettled = false;
             }
 
-            update() {
-                // Gaya tarik menuju target
-                const dx = this.targetX - this.x;
-                const dy = this.targetY - this.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
+            update(currentScale, pulse) {
+                // Calculate target position on heart curve
+                const heartPoint = getHeartPoint(this.t, currentScale);
+                const targetX = heartPoint.x + W / 2;
+                const targetY = heartPoint.y + H / 2 + pulse * 5; // Add pulse effect
 
-                // Tambahkan gaya tarik
-                this.vx += dx * this.attraction;
-                this.vy += dy * this.attraction;
-
-                // Efek Fluktuasi (Agar tidak berhenti total)
-                if (dist < 50) {
-                    // Goyangan ringan di sekitar target
-                    this.x += Math.sin(this.wobble) * 0.8; // Goyangan diperbesar sedikit
-                    this.y += Math.cos(this.wobble) * 0.8;
-                    this.wobble += this.wobbleSpeed;
+                // Initial explosion effect
+                if (!this.isSettled) {
+                    this.vx += (targetX - this.x) * 0.03;
+                    this.vy += (targetY - this.y) * 0.03;
+                    
+                    // Damping
+                    this.vx *= 0.92;
+                    this.vy *= 0.92;
+                    
+                    // Update position
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    
+                    // Settle when close enough to target
+                    const dx = targetX - this.x;
+                    const dy = targetY - this.y;
+                    if (Math.sqrt(dx*dx + dy*dy) < 2) {
+                        this.isSettled = true;
+                        this.vx = 0;
+                        this.vy = 0;
+                    }
+                } else {
+                    // Flow along heart curve
+                    this.t += this.speed;
+                    if (this.t > Math.PI * 2) this.t -= Math.PI * 2;
                 }
 
-                // Terapkan redaman
-                this.vx *= this.damping;
-                this.vy *= this.damping;
-
-                // Update posisi
-                this.x += this.vx;
-                this.y += this.vy;
+                // Glow effect
+                this.glow = 5 + Math.sin(Date.now() / 300 + this.t * 5) * 3;
             }
 
             draw() {
+                ctx.save();
+                ctx.shadowBlur = this.glow;
+                ctx.shadowColor = this.color;
                 ctx.fillStyle = this.color;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
                 ctx.fill();
+                ctx.restore();
             }
         }
 
-        // Fungsi inisialisasi Canvas dan Partikel
+        // Initialize Canvas
         function initCanvas() {
-            // Atur canvas agar mengisi hampir seluruh layar
-            W = canvas.width = window.innerWidth * 0.95;
-            H = canvas.height = window.innerHeight * 0.8;
+            W = canvas.width = Math.min(window.innerWidth * 0.9, 800);
+            H = canvas.height = Math.min(window.innerHeight * 0.6, 500);
+            
+            // Recreate particles
             particles = [];
-
-            // Membangun partikel di sepanjang kurva hati
             for (let i = 0; i < NUM_PARTICLES; i++) {
-                const t = (i / NUM_PARTICLES) * (2 * Math.PI);
-                const heartPoint = getHeartPoint(t);
-
-                const targetX = heartPoint.x + W / 2;
-                const targetY = heartPoint.y + H / 2;
-
-                const radius = Math.random() * (MAX_RADIUS - 1) + 1;
-
-                particles.push(new Particle(targetX, targetY, radius));
+                const t = (i / NUM_PARTICLES) * Math.PI * 2;
+                particles.push(new Particle(t));
             }
         }
 
-        // Loop Animasi
-        function animate() {
-            // Efek trail lembut: menghapus layar dengan warna background dengan sedikit transparansi
-            ctx.fillStyle = 'rgba(252, 228, 236, 0.4)'; 
+        // Animation Loop
+        function animate(time) {
+            if (!isAnimating) return;
+            
+            // Calculate time delta
+            const deltaTime = time - lastTime;
+            lastTime = time;
+            
+            // Heart pulsing effect
+            heartPulse = Math.sin(time / 300) * 0.8;
+            heartScale = 8 + heartPulse * 1.5;
+            
+            // Clear canvas with trail effect
+            ctx.fillStyle = 'rgba(252, 228, 236, 0.08)';
             ctx.fillRect(0, 0, W, H);
-
-            particles.forEach(p => {
-                p.update();
-                p.draw();
+            
+            // Update and draw particles
+            particles.forEach(particle => {
+                particle.update(heartScale, heartPulse);
+                particle.draw();
             });
-
-            requestAnimationFrame(animate);
+            
+            // Continue animation
+            animationId = requestAnimationFrame(animate);
         }
 
-        // --- Logika Login ---
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault(); 
+        // Start Animation
+        function startAnimation() {
+            isAnimating = true;
+            lastTime = performance.now();
+            animationId = requestAnimationFrame(animate);
+        }
 
+        // Stop Animation
+        function stopAnimation() {
+            isAnimating = false;
+            cancelAnimationFrame(animationId);
+        }
+
+        // Handle Window Resize
+        function handleResize() {
+            if (animationContainer.classList.contains('visible')) {
+                initCanvas();
+            }
+        }
+
+        // Login Logic
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
             const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value.trim();
-
+            
             if (username === CORRECT_USERNAME && password === CORRECT_PASSWORD) {
-                // Login Berhasil
-                loginContainer.classList.add('hidden');
-                animationContainer.classList.remove('hidden');
-
-                document.body.style.backgroundColor = '#fce4ec';
-
-                // Mulai Animasi
-                initCanvas();
-                animate();
-
-                // Tambahkan efek responsif saat ukuran layar berubah
-                window.addEventListener('resize', initCanvas);
-            } else {
-                // Login Gagal
-                errorMessage.classList.remove('hidden');
+                // Successful login
+                loginContainer.style.opacity = '0';
                 setTimeout(() => {
-                    errorMessage.classList.add('hidden');
+                    loginContainer.classList.add('hidden');
+                    animationContainer.classList.remove('hidden');
+                    animationContainer.classList.add('visible');
+                    
+                    // Initialize and start animation
+                    initCanvas();
+                    startAnimation();
+                    
+                    // Add resize listener
+                    window.addEventListener('resize', handleResize);
+                }, 500);
+                
+                // Change body background
+                document.body.style.background = 'radial-gradient(circle, #fce4ec 0%, #f8c8dc 70%)';
+            } else {
+                // Failed login
+                errorMessage.textContent = "🌸 Nama Port atau Kata Sandi salah. Coba lagi! 🌸";
+                errorMessage.style.color = '#e91e63';
+                
+                // Shake animation
+                loginContainer.style.animation = 'none';
+                setTimeout(() => {
+                    loginContainer.style.animation = 'shake 0.5s';
+                }, 10);
+                
+                setTimeout(() => {
+                    errorMessage.textContent = '';
                 }, 3000);
             }
         });
+
+        // CSS Animation for shake
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                20%, 40%, 60%, 80% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
-</html>
+    </html>
